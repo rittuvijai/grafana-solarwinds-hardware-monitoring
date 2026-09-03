@@ -1,0 +1,2252 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 109,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 100,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background: linear-gradient(90deg, #181b1f 0%, #0b0c0e 100%);\n    border-left: 6px solid #f99d1c; /* SolarWinds Orange */\n    border-radius: 4px;\n    padding: 10px 25px;\n    box-shadow: 0 4px 6px rgba(0,0,0,0.3);\n    height: 100%;\n    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n\">\n    <div style=\"display: flex; align-items: center; gap: 20px;\">\n        \n        <img src=\"https://grafana.com/api/plugins/grafana-solarwinds-datasource/versions/0.2.3-preview/logos/large\" style=\"height: 45px; width: auto; display: block;\" />\n        \n        <div style=\"display: flex; flex-direction: column; justify-content: center;\">\n            <span style=\"\n                font-size: 22px; \n                font-weight: 700; \n                color: #e6e6e6; \n                letter-spacing: 0.8px; \n                text-transform: uppercase;\n                line-height: 1.2;\n            \">\n                Physical Server Hardware Monitoring\n            </span>\n            <span style=\"\n                font-size: 11px; \n                color: #909090; \n                font-weight: 500;\n                letter-spacing: 0.5px;\n                margin-top: 2px;\n            \">\n                SOLARWINDS SAM • HARDWARE HEALTH\n            </span>\n        </div>\n    </div>\n\n    \n    <div style=\"text-align: right; display: flex; align-items: center;\">\n        <div style=\"\n            background: rgba(34, 37, 43, 0.8); \n            padding: 6px 16px; \n            border-radius: 20px; \n            border: 1px solid #333;\n            display: flex;\n            align-items: center;\n            gap: 8px;\n        \">\n            <div style=\"\n                width: 8px; \n                height: 8px; \n                background-color: #f99d1c; \n                border-radius: 50%; \n                box-shadow: 0 0 8px #f99d1c;\n                animation: pulse 2s infinite;\n            \"></div>\n            <span style=\"\n                color: #ccc; \n                font-size: 11px; \n                font-weight: 600;\n                letter-spacing: 1px;\n            \">LIVE MONITORING</span>\n        </div>\n    </div>\n</div>",
+        "mode": "html"
+      },
+      "pluginVersion": "12.0.2",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Unknown"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 3
+      },
+      "id": 217,
+      "options": {
+        "displayLabels": [
+          "value",
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT \r\n    ISNULL(MachineType, 'Unknown') AS [DeviceType],\r\n    COUNT(NodeID) AS [DeviceCount]\r\nFROM Nodes\r\nWHERE UnManaged = 0\r\n  AND Caption <> IP_Address \r\n  AND Caption IN (${Node:singlequote}) \r\nGROUP BY MachineType\r\nORDER BY [DeviceCount] DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "🖥️ SAM INVENTORY (BY DEVICE TYPE)",
+      "transformations": [
+        {
+          "id": "rowsToFields",
+          "options": {
+            "headerField": "DeviceType",
+            "valueField": "DeviceCount"
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "WMI"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#967302",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ping"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 11,
+        "y": 3
+      },
+      "id": 212,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT \r\n    SUM(CASE WHEN n.ObjectSubType = 'WMI' THEN 1 ELSE 0 END) AS [WMI], \r\n    SUM(CASE WHEN n.ObjectSubType LIKE '%SNMP%' THEN 1 ELSE 0 END) AS [SNMP], \r\n    SUM(CASE WHEN n.ObjectSubType = 'Agent' THEN 1 ELSE 0 END) AS [Agent], \r\n    SUM(CASE WHEN n.ObjectSubType = 'ICMP' THEN 1 ELSE 0 END) AS [Ping], \r\n    SUM(CASE WHEN n.ObjectSubType NOT IN ('WMI','Agent','ICMP') AND n.ObjectSubType NOT LIKE '%SNMP%' THEN 1 ELSE 0 END) AS [Other] \r\nFROM NodesData n\r\nLEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\r\nWHERE n.Caption IN (${Node:singlequote})\r\n  /* LOGIC MATCHING INVENTORY EXACTLY */\r\n  AND vim.NodeID IS NULL \r\n  AND (\r\n      n.IsServer = 1 \r\n      OR n.MachineType LIKE '%Hyper-V%'\r\n      OR n.MachineType LIKE '%ESX%'\r\n      OR n.MachineType LIKE '%VMware%'\r\n      OR n.MachineType LIKE '%Cisco UCS%'\r\n  )",
+          "refId": "A"
+        }
+      ],
+      "title": "📡 MONITORING (WMI | SNMP | AGENT | PING)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgba(52, 106, 222, 0.23)",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "nodes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 101,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(n.NodeID) \r\nFROM NodesData n\r\nLEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\r\nWHERE vim.NodeID IS NULL  -- Matches Physical-Only Logic\r\n  AND (\r\n      n.IsServer = 1 \r\n      OR n.MachineType LIKE '%Hyper-V%' \r\n      OR n.MachineType LIKE '%ESX%'\r\n      OR n.MachineType LIKE '%VMware%'    -- Added missing filter\r\n      OR n.MachineType LIKE '%Cisco UCS%' -- Added missing filter\r\n  )\r\n  AND n.Caption IN (${Node:singlequote})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "🖥️ TOTAL PHYSICAL SERVERS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 7
+      },
+      "id": 222,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT COUNT(NodeID) \r\nFROM Nodes \r\nWHERE Status = 2 \r\n  AND UnManaged = 0 \r\n  AND LastSystemUpTimePollUtc > DATEADD(day, -30, GETDATE()) \r\n  AND Caption IN (${Node:singlequote})",
+          "refId": "A"
+        }
+      ],
+      "title": "🚨 ACTIVE DOWN (Last 30d)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46"
+              },
+              {
+                "color": "dark-red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 7,
+        "x": 0,
+        "y": 11
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "Nodes",
+          "format": "table",
+          "rawSql": "SELECT COUNT(h_item.ID) as CriticalHardware \r\nFROM Nodes n\r\nJOIN HWH_HardwareInfo h_info ON n.NodeID = h_info.NetObjectID AND h_info.NetObjectType = 'N'\r\nJOIN HWH_HardwareItem h_item ON h_info.ID = h_item.HardwareInfoID\r\nWHERE n.Status <> 2 \r\nAND n.UnManaged = 0 \r\nAND h_item.Status = 14\r\nAND h_item.IsDisabled = 0 \r\nAND h_item.IsDeleted = 0 \r\nAND h_info.IsDisabled = 0 \r\nAND n.Caption IN (${Node:singlequote})",
+          "refId": "A"
+        }
+      ],
+      "title": "CRITICAL H/W SENSORS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "CRITICAL": {
+                        "color": "dark-red",
+                        "index": 0,
+                        "text": "CRITICAL"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 100
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Category"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 140
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Component"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 286
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 124
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 17,
+        "x": 7,
+        "y": 11
+      },
+      "id": 103,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    n.Caption AS [Server], \r\n    c.Name AS [Category], \r\n    hi.DisplayName AS [Component], \r\n    hi.Value AS [Value], \r\n    'CRITICAL' AS [Status] \r\nFROM HWH_HardwareItem hi \r\nJOIN HWH_HardwareCategoryStatus hcs ON hi.HardwareCategoryStatusID = hcs.ID \r\nJOIN APM_HardwareCategory c ON hcs.HardwareCategoryID = c.ID \r\nJOIN HWH_HardwareInfo hinf ON hcs.HardwareInfoID = hinf.ID \r\nJOIN Nodes n ON hinf.NetObjectID = n.NodeID \r\nWHERE hi.Status IN (2, 14) \r\n  AND n.UnManaged = 0 \r\n  AND hi.IsDisabled = 0 -- Filter out disabled sensors\r\n  AND hi.IsDeleted = 0  -- Filter out removed sensors\r\n  AND hinf.IsDisabled = 0 -- Ensure hardware polling is active for the node\r\n  AND n.Caption IN (${Node:singlequote}) \r\nORDER BY n.Caption ASC",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "ACTION REQUIRED: PHYSICAL HARDWARE FAILURES",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Disk"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Power Supply"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 7,
+        "x": 0,
+        "y": 14
+      },
+      "id": 7,
+      "options": {
+        "displayLabels": [
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "Nodes",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    c.Name AS [HardwareType], \r\n    COUNT(hi.ID) AS [FailureCount]\r\nFROM HWH_HardwareItem hi\r\nJOIN HWH_HardwareCategoryStatus hcs ON hi.HardwareCategoryStatusID = hcs.ID\r\nJOIN APM_HardwareCategory c ON hcs.HardwareCategoryID = c.ID\r\nJOIN HWH_HardwareInfo hinf ON hcs.HardwareInfoID = hinf.ID\r\nJOIN Nodes n ON hinf.NetObjectID = n.NodeID\r\nWHERE n.UnManaged = 0 \r\n  AND hi.Status IN (2, 14) \r\n  AND hi.IsDisabled = 0 \r\n  AND hi.IsDeleted = 0 \r\n  AND hinf.IsDisabled = 0 \r\n  AND n.Caption LIKE '%[a-zA-Z]%' \r\n  AND n.Caption IN (${Node:singlequote}) \r\nGROUP BY c.Name;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "WHAT IS BROKEN?",
+      "transformations": [
+        {
+          "id": "rowsToFields",
+          "options": {
+            "headerField": "HardwareType",
+            "valueField": "FailureCount"
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Healthy"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hardware Failure"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Node Down"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Total"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 19
+      },
+      "id": 218,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mssql",
+            "uid": "af79ldx30rl6of"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH NodeStatusMapping AS (\n    SELECT \n        n.NodeID,\n        CASE \n            /* Bucket 1: Down Nodes */\n            WHEN n.Status = 2 THEN 'Node Down'\n            \n            /* Bucket 2: Hardware Failures (Sensor checks) */\n            WHEN n.Status = 1 \n                 AND EXISTS (\n                    SELECT 1 FROM HWH_HardwareItem hi\n                    JOIN HWH_HardwareInfo hinf ON hi.HardwareInfoID = hinf.ID\n                    WHERE hinf.NetObjectID = n.NodeID \n                      AND hinf.NetObjectType = 'N'\n                      AND hi.Status IN (2, 14)\n                      AND hi.IsDisabled = 0 \n                      AND hi.IsDeleted = 0\n                      AND hinf.IsDisabled = 0\n                 ) THEN 'Hardware Failure'\n            \n            /* Bucket 3: Healthy */\n            WHEN n.Status = 1 THEN 'Healthy'\n            \n            /* Catch-all for Unmanaged (Status 9) or Warning */\n            ELSE 'Other Issues'\n        END AS NodeHealth\n    FROM NodesData n\n    LEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\n    WHERE n.Caption IN (${Node:singlequote})\n      -- PHYSICAL SERVER GATEKEEPER LOGIC\n      AND vim.NodeID IS NULL \n      AND (\n          n.IsServer = 1 \n          OR n.MachineType LIKE '%Hyper-V%'\n          OR n.MachineType LIKE '%ESX%'\n          OR n.MachineType LIKE '%VMware%'\n          OR n.MachineType LIKE '%Cisco UCS%'\n      )\n)\nSELECT \n    NodeHealth,\n    COUNT(NodeID) AS Total\nFROM NodeStatusMapping\nGROUP BY NodeHealth\nORDER BY Total DESC;",
+          "refId": "A"
+        }
+      ],
+      "title": "🛡️ OVERALL SYSTEM HEALTH",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Category"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Hardware Failure": {
+                        "color": "orange",
+                        "index": 0,
+                        "text": "⚠️ Hardware Failure"
+                      },
+                      "Healthy": {
+                        "color": "green",
+                        "index": 1,
+                        "text": "✅ Healthy"
+                      },
+                      "Node Down": {
+                        "color": "red",
+                        "index": 2,
+                        "text": "⛔ Node Down"
+                      },
+                      "Other Issues": {
+                        "color": "blue",
+                        "index": 3,
+                        "text": "ℹ️ Warning / Other"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 250
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RAM"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 69
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status Details"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 401
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Action"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP Address"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 110
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hardware Model"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 148
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 17,
+        "x": 7,
+        "y": 19
+      },
+      "id": 221,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Category"
+          }
+        ]
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "/* SOLARWINDS SAM: PHYSICAL SERVER HEALTH (GRAFANA CORRECTED) */\nWITH NodeStatusMapping AS (\n    SELECT \n        n.NodeID,\n        n.Caption,\n        n.IP_Address,\n        n.MachineType,\n        n.Status,\n        n.StatusDescription,\n        /* COLUMNS NOW VALID VIA 'Nodes' VIEW */\n        ISNULL(n.CPULoad, 0) AS CPULoad,\n        ISNULL(n.PercentMemoryUsed, 0) AS MemoryUsed,\n        \n        CASE \n            WHEN n.Status = 2 THEN 'Node Down'\n            WHEN n.Status = 1 \n                 AND EXISTS (\n                    SELECT 1 FROM HWH_HardwareItem hi\n                    JOIN HWH_HardwareInfo hinf ON hi.HardwareInfoID = hinf.ID\n                    WHERE hinf.NetObjectID = n.NodeID \n                      AND hinf.NetObjectType = 'N'\n                      AND hi.Status IN (2, 14)\n                      AND hi.IsDisabled = 0 \n                      AND hi.IsDeleted = 0\n                      AND hinf.IsDisabled = 0\n                 ) THEN 'Hardware Failure'\n            WHEN n.Status = 1 THEN 'Healthy'\n            ELSE 'Other Issues'\n        END AS NodeHealth\n    FROM Nodes n  /* <--- CHANGED FROM NodesData TO Nodes */\n    LEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\n    WHERE n.Caption IN (${Node:singlequote})\n      AND vim.NodeID IS NULL \n      AND (\n          n.IsServer = 1 \n          OR n.MachineType LIKE '%Hyper-V%'\n          OR n.MachineType LIKE '%ESX%'\n          OR n.MachineType LIKE '%VMware%'\n          OR n.MachineType LIKE '%Cisco UCS%'\n      )\n)\nSELECT \n    nsm.NodeHealth AS [Category],\n    nsm.Caption AS [Node Name],\n    nsm.IP_Address AS [IP Address],\n    nsm.CPULoad AS [CPU],\n    nsm.MemoryUsed AS [RAM],\n    nsm.MachineType AS [Hardware Model],\n    \n    CASE \n        WHEN nsm.NodeHealth = 'Hardware Failure' THEN \n            ISNULL(\n                STUFF((\n                    SELECT '; ' + CAST(hi.DisplayName AS VARCHAR(100)) + ' (' + CAST(hi.OriginalStatus AS VARCHAR(50)) + ')'\n                    FROM HWH_HardwareItem hi\n                    JOIN HWH_HardwareInfo hinf ON hi.HardwareInfoID = hinf.ID\n                    WHERE hinf.NetObjectID = nsm.NodeID \n                      AND hi.Status IN (2, 14)\n                      AND hi.IsDisabled = 0\n                      AND hi.IsDeleted = 0\n                    FOR XML PATH('')\n                ), 1, 2, '')\n            , 'Check Hardware Health Tab')\n        WHEN nsm.NodeHealth = 'Node Down' THEN 'Node is unreachable (ICMP/SNMP failure)'\n        WHEN nsm.NodeHealth = 'Other Issues' THEN nsm.StatusDescription\n        ELSE 'System Optimal'\n    END AS [Status Details],\n    \n    '🔍 View' AS [Action]\n\nFROM NodeStatusMapping nsm\nORDER BY \n    CASE nsm.NodeHealth \n        WHEN 'Node Down' THEN 1\n        WHEN 'Hardware Failure' THEN 2\n        WHEN 'Other Issues' THEN 3\n        ELSE 4 \n    END,\n    nsm.Caption;",
+          "refId": "A"
+        }
+      ],
+      "title": "📋 PHYSICAL SERVER HEALTH DRILL-DOWN",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 27
+      },
+      "id": 102,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT COUNT(NodeID) \r\nFROM Nodes \r\nWHERE Status = 2 \r\n  AND UnManaged = 0 \r\n  AND LastSystemUpTimePollUtc > DATEADD(day, -30, GETDATE()) \r\n  AND Caption IN (${Node:singlequote})",
+          "refId": "A"
+        }
+      ],
+      "title": "🚨 ACTIVE DOWN (Last 30d)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "DOWN": {
+                        "color": "red",
+                        "index": 0,
+                        "text": "🚨 DOWN"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Server"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 172
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Details"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 169
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP Address"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 106
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 17,
+        "x": 7,
+        "y": 27
+      },
+      "id": 22,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": [
+            "Server"
+          ],
+          "reducer": [
+            "count"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Server"
+          }
+        ]
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    n.Caption AS [Server],\r\n    n.IP_Address AS [IP Address],\r\n    n.MachineType AS [Model/OS],\r\n    'DOWN' AS [Status],\r\n    n.StatusDescription AS [Details],\r\n    n.LastSystemUpTimePollUtc AS [Last Contact]\r\nFROM Nodes n\r\nWHERE \r\n    n.Status = 2 \r\n    AND n.UnManaged = 0 \r\n    /* Filter to show only servers seen in the last 30 days (Excludes Ghosts) */\r\n    AND n.LastSystemUpTimePollUtc > DATEADD(day, -30, GETDATE())\r\n    AND n.Caption NOT LIKE '%[0-9]%.[0-9]%.[0-9]%.[0-9]%'\r\n    AND n.Caption IN (${Node:singlequote})\r\nORDER BY n.Caption",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "🚨 ACTIVE DOWN SERVER DETAILS (Seen in last 30d)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(137, 137, 137, 0.3)"
+              },
+              {
+                "color": "purple",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "servers"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 35
+      },
+      "id": 215,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT COUNT(NodeID) \r\nFROM Nodes \r\nWHERE Status = 2 \r\n  AND UnManaged = 0 \r\n  AND (LastSystemUpTimePollUtc < DATEADD(day, -30, GETDATE()) OR LastSystemUpTimePollUtc IS NULL)\r\n  AND Caption IN (${Node:singlequote})",
+          "refId": "A"
+        }
+      ],
+      "title": "👻 GHOST NODES (Dead > 30 Days)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "red",
+                "value": 90
+              },
+              {
+                "color": "#8F0000",
+                "value": 365
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Days_Offline"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "d"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Server"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 220
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 17,
+        "x": 7,
+        "y": 35
+      },
+      "id": 208,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": [
+            "Server"
+          ],
+          "reducer": [
+            "count"
+          ],
+          "show": true
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT TOP 100\r\n    Caption AS [Server],\r\n    IP_Address AS [IP],\r\n    /* Use LastSystemUpTimePollUtc because we verified it exists in your DB */\r\n    DATEDIFF(day, ISNULL(LastSystemUpTimePollUtc, DATEADD(year, -2, GETDATE())), GETDATE()) AS [Days_Offline],\r\n    LastSystemUpTimePollUtc AS [Last_Contact]\r\nFROM Nodes \r\nWHERE Status = 2 -- Down\r\n  AND UnManaged = 0 -- Still being monitored\r\n  /* If LastContact is NULL (Ping only) OR older than 30 days */\r\n  AND (LastSystemUpTimePollUtc < DATEADD(day, -30, GETDATE()) OR LastSystemUpTimePollUtc IS NULL)\r\n  AND Caption IN (${Node:singlequote})\r\nORDER BY [Days_Offline] DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "🧟 DECOMMISSION CANDIDATES (Down > 30 Days)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "servers"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 43
+      },
+      "id": 216,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(NodeID) as BrokenConfig \r\nFROM Nodes \r\nWHERE (MachineType = 'Unknown' OR Vendor = 'Unknown') \r\n  AND UnManaged = 0 \r\n  AND ObjectSubType IN ('WMI', 'SNMP')\r\n  AND Status <> 2 \r\n  AND Caption IN (${Node:singlequote})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "🔧 REPAIR MONITORING (WMI/SNMP BROKEN)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Suggested Fix"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 224
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "pattern": "FIREWALL.*",
+                      "result": {
+                        "color": "orange",
+                        "text": "🔥 FIREWALL: Check Ports 135/445"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "CREDENTIALS.*",
+                      "result": {
+                        "color": "red",
+                        "text": "🔑 CREDENTIALS: Check Account"
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Error Message"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 165
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff6666",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Method"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP Address"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Server"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 232
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 17,
+        "x": 7,
+        "y": 43
+      },
+      "id": 209,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": [
+            "Server"
+          ],
+          "reducer": [
+            "count"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT \r\n    Caption AS [Server],\r\n    IP_Address AS [IP Address],\r\n    ObjectSubType AS [Method],\r\n    StatusDescription AS [Error Message],\r\n    /* Smart Analysis of the Error Message */\r\n    CASE \r\n        WHEN StatusDescription LIKE '%RPC%' OR StatusDescription LIKE '%0x800706BA%' THEN '🔥 FIREWALL: Check Ports 135/445'\r\n        WHEN StatusDescription LIKE '%Access Denied%' OR StatusDescription LIKE '%Login%' OR StatusDescription LIKE '%Invalid password%' THEN '🔑 CREDENTIALS: Check Account/Password'\r\n        WHEN StatusDescription LIKE '%Timeout%' THEN '⏳ NETWORK: Latency or Packet Loss'\r\n        ELSE '⚠️ WMI REPAIR: Rebuild WMI Repository'\r\n    END AS [Suggested Fix]\r\nFROM Nodes \r\nWHERE (MachineType = 'Unknown' OR Vendor = 'Unknown') \r\n  AND UnManaged = 0 \r\n  AND ObjectSubType IN ('WMI', 'SNMP')\r\n  AND Status <> 2 \r\n  AND Caption IN (${Node:singlequote}) \r\nORDER BY Caption",
+          "refId": "A"
+        }
+      ],
+      "title": "🔧 DRILL-DOWN: WMI/SNMP CONFIGURATION FAILURES",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Device Count",
+            "axisPlacement": "left",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "gray"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ping Only (ICMP)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff9900",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Config Failure (WMI/SNMP)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ff2f2f",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 51
+      },
+      "id": 206,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showLabel": true,
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT \r\n  'Unknown Devices' as [Category],\r\n  SUM(CASE WHEN ObjectSubType = 'ICMP' THEN 1 ELSE 0 END) AS [Ping Only (ICMP)],\r\n  SUM(CASE WHEN ObjectSubType IN ('WMI', 'SNMP') THEN 1 ELSE 0 END) AS [Config Failure (WMI/SNMP)]\r\nFROM Nodes \r\nWHERE (MachineType = 'Unknown' OR Vendor = 'Unknown') \r\n  AND UnManaged = 0\r\n  AND Caption IN (${Node:singlequote})",
+          "refId": "A"
+        }
+      ],
+      "title": "⚠️ BLIND SPOTS",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Root Cause"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 320
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "pattern": "AUTH.*",
+                      "result": {
+                        "color": "#FF2F2F",
+                        "index": 0,
+                        "text": "⛔ AUTH FAILURE"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "FIREWALL.*",
+                      "result": {
+                        "color": "#FF9900",
+                        "index": 1,
+                        "text": "🧱 FIREWALL BLOCK"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "BLIND.*",
+                      "result": {
+                        "color": "orange",
+                        "index": 2,
+                        "text": "⚠️ BLIND (PING ONLY)"
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Method"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "custom.width",
+                "value": 79
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP Address"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 110
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 6,
+        "y": 51
+      },
+      "id": 210,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": [
+            "Server Name"
+          ],
+          "reducer": [
+            "count"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT \r\n    Caption AS [Server Name],\r\n    IP_Address AS [IP Address],\r\n    ObjectSubType AS [Method],\r\n    /* Smart Status Classification */\r\n    CASE \r\n        WHEN ObjectSubType = 'ICMP' THEN 'BLIND: PING ONLY (No Agent)'\r\n        WHEN StatusDescription LIKE '%RPC%' OR StatusDescription LIKE '%0x800706BA%' THEN 'FIREWALL BLOCK (Port 135/445)'\r\n        WHEN StatusDescription LIKE '%Access Denied%' OR StatusDescription LIKE '%Login%' THEN 'AUTH FAILURE (Bad Creds)'\r\n        WHEN StatusDescription LIKE '%Timeout%' THEN 'NETWORK TIMEOUT'\r\n        ELSE 'CHECK CONFIG'\r\n    END AS [Root Cause]\r\nFROM Nodes \r\nWHERE (MachineType = 'Unknown' OR Vendor = 'Unknown') \r\n  AND UnManaged = 0\r\n  AND Caption IN (${Node:singlequote})\r\n/* NEW SORTING LOGIC */\r\nORDER BY \r\n  CASE \r\n    /* 1. FIREWALL IS CRITICAL PRIORITY */\r\n    WHEN StatusDescription LIKE '%RPC%' OR StatusDescription LIKE '%0x800706BA%' THEN 1\r\n    /* 2. Other WMI/SNMP Errors */\r\n    WHEN ObjectSubType IN ('WMI', 'SNMP') THEN 2\r\n    /* 3. ICMP/Ping Only (Lowest) */\r\n    ELSE 3\r\n  END ASC,\r\n  Caption ASC",
+          "refId": "A"
+        }
+      ],
+      "title": "📋 DETAILED LIST: ALL BLIND SPOTS (Firewall Priority)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "⛔ AUTH FAILURE"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FF2F2F",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "🧱 FIREWALL BLOCK"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FF9900",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "⚠️ BLIND: PING ONLY"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "⏳ NETWORK TIMEOUT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "❔ CHECK CONFIG"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "gray",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 51
+      },
+      "id": 211,
+      "options": {
+        "displayLabels": [
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT \r\n    SUM(CASE WHEN StatusDescription LIKE '%Access Denied%' OR StatusDescription LIKE '%Login%' THEN 1 ELSE 0 END) AS [⛔ AUTH FAILURE],\r\n    SUM(CASE WHEN StatusDescription LIKE '%RPC%' OR StatusDescription LIKE '%0x800706BA%' THEN 1 ELSE 0 END) AS [🧱 FIREWALL BLOCK],\r\n    SUM(CASE WHEN ObjectSubType = 'ICMP' THEN 1 ELSE 0 END) AS [⚠️ BLIND: PING ONLY],\r\n    SUM(CASE WHEN StatusDescription LIKE '%Timeout%' THEN 1 ELSE 0 END) AS [⏳ NETWORK TIMEOUT],\r\n    /* Catch-all for remaining items */\r\n    SUM(CASE \r\n        WHEN ObjectSubType <> 'ICMP' \r\n        AND StatusDescription NOT LIKE '%Access Denied%' \r\n        AND StatusDescription NOT LIKE '%Login%' \r\n        AND StatusDescription NOT LIKE '%RPC%' \r\n        AND StatusDescription NOT LIKE '%0x800706BA%' \r\n        AND StatusDescription NOT LIKE '%Timeout%' \r\n        THEN 1 ELSE 0 END) AS [❔ CHECK CONFIG]\r\nFROM Nodes \r\nWHERE (MachineType = 'Unknown' OR Vendor = 'Unknown') \r\n  AND UnManaged = 0\r\n  AND Caption IN (${Node:singlequote})",
+          "refId": "A"
+        }
+      ],
+      "title": "ROOT CAUSE DISTRIBUTION",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 59
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": "false"
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "Nodes",
+          "format": "table",
+          "rawSql": "SELECT \r\n    n.Caption AS [Server],\r\n    disk.Model AS [DiskModel],\r\n    disk.SerialNumber,\r\n    CAST((disk.CapacityB / 1073741824.0) AS DECIMAL(10,2)) AS [Size_GB]\r\nFROM AssetInventory_HardDrive disk\r\nJOIN Nodes n ON disk.NodeID = n.NodeID\r\nWHERE \r\n    n.UnManaged = 0\r\n    AND n.Caption IN (${Node:singlequote})\r\nORDER BY disk.Model",
+          "refId": "A"
+        }
+      ],
+      "title": "SPARE PARTS (Inventory for Selected Server)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "af79ldx30rl6of"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Category"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 72
+      },
+      "id": 219,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "count"
+          ],
+          "show": false,
+          "showNodes": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mssql",
+            "uid": "af79ldx30rl6of"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    n.Caption AS [Server Name],\n    n.IP_Address AS [IP Address],\n    -- Standardized Physical Categorization\n    CASE \n        WHEN n.MachineType LIKE '%Hyper-V%' THEN 'Hyper-V Host (Physical)'\n        WHEN n.MachineType LIKE '%ESX%' OR n.MachineType LIKE '%VMware%' THEN 'VMware Host (Physical)'\n        WHEN n.MachineType LIKE '%Cisco UCS%' THEN 'Infrastructure (Physical)'\n        ELSE 'Physical Standalone Server'\n    END AS [Category],\n    n.MachineType AS [OS / Model],\n    n.Vendor,\n    n.StatusDescription AS [Current Status]\nFROM NodesData n\nLEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\nWHERE vim.NodeID IS NULL -- Exclude Virtual Guests\n  AND (\n      n.IsServer = 1 \n      OR n.MachineType LIKE '%Hyper-V%'\n      OR n.MachineType LIKE '%ESX%'\n      OR n.MachineType LIKE '%VMware%'\n      OR n.MachineType LIKE '%Cisco UCS%'\n  )\n  AND n.Caption IN (${Node:singlequote})\nORDER BY [Category], n.Caption;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "📋 PHYSICAL SERVER INVENTORY",
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "refresh": "1m",
+  "schemaVersion": 41,
+  "tags": [
+    "SolarWinds",
+    "Physical",
+    "Hardware",
+    "servers",
+    "Wintel"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "mssql",
+          "uid": "af79ldx30rl6of"
+        },
+        "definition": "SELECT n.Caption \nFROM NodesData n\nLEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\nWHERE vim.NodeID IS NULL  -- Exclude all Virtual Guests\n  AND (\n      n.IsServer = 1 \n      OR n.MachineType LIKE '%Hyper-V%' \n      OR n.MachineType LIKE '%ESX%' \n      OR n.MachineType LIKE '%VMware%'\n      OR n.MachineType LIKE '%Cisco UCS%'\n  )\nORDER BY n.Caption;",
+        "includeAll": true,
+        "label": "Select Server",
+        "multi": true,
+        "name": "Node",
+        "options": [],
+        "query": "SELECT n.Caption \nFROM NodesData n\nLEFT JOIN VIM_VirtualMachines vim ON n.NodeID = vim.NodeID\nWHERE vim.NodeID IS NULL  -- Exclude all Virtual Guests\n  AND (\n      n.IsServer = 1 \n      OR n.MachineType LIKE '%Hyper-V%' \n      OR n.MachineType LIKE '%ESX%' \n      OR n.MachineType LIKE '%VMware%'\n      OR n.MachineType LIKE '%Cisco UCS%'\n  )\nORDER BY n.Caption;",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "PHYSICAL SERVER FAILURE & HARDWARE ANALYSIS: SolarWinds SAM",
+  "uid": "Physical_server_02",
+  "version": 148
+}
